@@ -111,14 +111,14 @@ def send_to_api(data, url, headers={'Content-Type': 'application/json'}):
 
 def main(name):
     load_dotenv()
-    if "Люстдорфська" in name:
+    if "люстдорфська" in name.lower():
         if (datetime.now() + timedelta(hours=3)).hour >= 20:
             result_ref = main_for_ref(name) 
             send_to_api(result_ref, " https://import.tabletki.ua/Import/Ref/55935") # for work
 
         result = main_for_rests("55935 ", name) # for work
         send_to_api(result, "https://import.tabletki.ua/Import/Rests") # for work
-    elif "Троїцька" in name:
+    elif "троїцька" in name.lower():
         if (datetime.now() + timedelta(hours=3)).hour >= 20:
             result_ref = main_for_ref(name)
             send_to_api(result_ref, " https://import.tabletki.ua/Import/Ref/58767") # for work
