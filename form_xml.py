@@ -59,7 +59,10 @@ def format(file_path, output_xml, price_file = "Cost.xlsx"):
             elif col == "Штрих-код":
                 header_map['barcode'] = idx
             elif col == "К-сть":
-                header_map['quantity'] = idx
+                if int(idx) < 0:
+                    header_map['quantity'] = 0
+                else:
+                    header_map['quantity'] = idx
             elif col == "Ціна":
                 header_map['price'] = idx
 
@@ -74,7 +77,7 @@ def format(file_path, output_xml, price_file = "Cost.xlsx"):
             try:
                 name = str(row[header_map['name']]) if row[header_map['name']] else ''
                 barcode = str(row[header_map['barcode']]) if row[header_map['barcode']] else ''
-                quantity = str(row[header_map['quantity']]) if row[header_map['quantity']] else '0'
+                quantity = str(row[header_map['quantity']]) if row[header_map['quantity']] and row[header_map['quantity']] > 0 else '0'
                 price = barcode_price_map.get(barcode)
                 if not price:
                     price = str(row[header_map['price']]) if row[header_map['price']] else '0'
@@ -117,4 +120,4 @@ def main_format(file_path, output_xml):
 
 if __name__ == "__main__":
     format("downloads/Люстдорфська.xlsx", 'Люстдорфська.xml')
-    format("downloads/Троїцька (2).xlsx", 'Троїцька.xml')
+    format("downloads/Троїцька.xlsx", 'Троїцька.xml')
