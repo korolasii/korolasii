@@ -123,7 +123,7 @@ def main(name):
         
     if _last_ref_sent_date != current_date:
         print("\nОтправка справочных данных (Ref) за сегодня...")
-        result_ref = main_for_ref(name) 
+        result_ref = main_for_ref("gods.xml")
         send_to_api(result_ref, " https://import.tabletki.ua/Import/Ref/55935") # for work
         
 
