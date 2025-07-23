@@ -7,8 +7,7 @@ import time
 from pprint import pprint
 from dotenv import load_dotenv
 
-
-_last_ref_sent_date = "2025-07-23"
+_last_ref_sent_date = None
 
 def openFile(name) -> str:
     with open(name, 'r', encoding='utf-8') as file:
@@ -67,7 +66,7 @@ def main_for_ref(name) -> dict:
 
 
 def main_for_rests(branch_code="30547", name = "output.xml"):
-    now = (datetime.now()).strftime("%d.%m.%Y %H:%M:%S")
+    now = (datetime.now() + timedelta(hours=3)).strftime("%d.%m.%Y %H:%M:%S")
 
     data = xmltodict.parse(openFile(name))
     offers = data.get('Offers', {}).get('Offer', [])
@@ -112,12 +111,10 @@ def send_to_api(data, url, headers={'Content-Type': 'application/json'}):
 
 
 def main(name):
-    print(name)
     load_dotenv()
     current_date = datetime.now().date()
     global _last_ref_sent_date
     if "люстдорфська" in name.lower():
-        print("Люстдорфська")
         result = main_for_rests("55935 ", name) # for work
         send_to_api(result, "https://import.tabletki.ua/Import/Rests") # for work
     elif "троїцька" in name.lower():
@@ -139,7 +136,7 @@ def main(name):
 #     load_dotenv()
 #     if "Люстдорфська" in name:
 #         if (datetime.now() + timedelta(hours=3)).hour >= 20:
-#             result_ref = main_for_ref(name) 
+#             result_ref = main_for_ref(name)
 #             send_to_api(result_ref, " https://testenv-import.tabletki.ua/Import/Ref/30547") # for test
 
 #         result = main_for_rests("30547 ", name) # for test
@@ -152,6 +149,3 @@ def main(name):
 
 #         result = main_for_rests("30548 ", name) # for test
 #         send_to_api(result, "https://testenv-import.tabletki.ua/Import/Rests") # for test
-if __name__ == "__main__":
-    main("Люстдорфська.xml")
-    main("Троїцька.xml")
